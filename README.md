@@ -36,18 +36,17 @@ The system also uses a **DS1307 Real-Time Clock (RTC)** to record vehicle entry 
 
 ## 🖥️ System Display
 
-The LCD continuously displays:
+The LCD continuously displays the current parking status:
 
 ```text
 --- PARKING LIVE ---
 Slot 1: AVAILABLE
 Slot 2: OCCUPIED
 Total Spots Free: 1
-
+``` 
 The number of available spaces is automatically updated whenever the parking-slot state changes.
-
-🏗️ System Architecture
-             ┌─────────────────────┐
+## 🏗️ System Architecture
+                          ┌─────────────────────┐
              │   Parking Sensors   │
              │                     │
              │   Slot 1   Slot 2   │
@@ -73,9 +72,10 @@ The number of available spaces is automatically updated whenever the parking-slo
                       ▼
                ┌─────────────┐
                │   Billing   │
-               │  Calculation│
+               │ Calculation │
                └─────────────┘
-🔧 Hardware Components
+``
+##🔧 Hardware Components
 Component	Quantity
 ATmega328P	1
 20×4 LCD	1
@@ -87,13 +87,10 @@ Bi-color LEDs	2
 Resistors	3
 Serial/COMPIM Interface	1
 Power Supply	1
-
-The circuit diagram contains the ATmega328P, DS1307 RTC, PCF8574 interface, LCD, LEDs and supporting resistors.
-
 📸 Circuit & Simulation
 🔌 Complete Circuit Diagram
 
-The complete Proteus circuit contains the ATmega328P controller, DS1307 RTC, LCD interface, parking indicators and serial communication interface.
+The complete Proteus circuit contains the ATmega328P controller, DS1307 RTC, LCD interface, parking indicators, and serial communication interface.
 
 🅿️ Case 1 — One Parking Slot Occupied
 
@@ -123,7 +120,7 @@ Vehicle entry time
 Vehicle exit time
 Parking duration
 
-The circuit uses the DS1307's SCL and SDA connections for communication.
+The system uses the DS1307 RTC for time-based parking management.
 
 💰 Parking Fee Calculation
 
@@ -240,7 +237,7 @@ Add ultrasonic parking detection
 Add online payment integration
 Store vehicle and billing records
 Add a parking reservation system
-👨‍💻 Author
+## 👨‍💻 Author
 
 Mohammed Suhail
 
@@ -249,23 +246,29 @@ Electronics and Communication Engineering
 ⭐ If you find this project useful, consider giving the repository a star.
 
 
-### ⚠️ One important change for GitHub
+### ⚠️ One important thing about the images
 
-For the images to actually appear in the README, **put the two PNG files in the same repository folder as `README.md`**:
+GitHub **will not display a PDF as an image** using:
 
-```text
+```markdown
+![Complete Circuit Diagram](Circuit%20Diagram.pdf)
+
+For the circuit diagram, convert/save the circuit screenshot as a PNG or JPG and put it in your repository.
+
+For example:
+
 ATmega328P-Smart-Parking-System/
 │
 ├── README.md
 ├── sketch_sep26a.ino
-├── Circuit Diagram.pdf
-├── Case01-when one parking spot is ocuppied.png
-└── case02-when both are occupied.png
+├── Circuit-Diagram.png
+├── Case01-when-one-parking-spot-is-occupied.png
+└── Case02-when-both-are-occupied.png
 
-Then these Markdown image references will work:
+Then change that section to:
 
-![Case 1](Case01-when%20one%20parking%20spot%20is%20ocuppied.png)
+## 🔌 Complete Circuit Diagram
 
-![Case 2](case02-when%20both%20are%20occupied.png)
+![Complete Circuit Diagram](Circuit-Diagram.png)
 
-I would use the two simulation screenshots prominently in the README, because they immediately show that the project actually works rather than making the repository just a collection of code and circuit files.
+The two screenshots you already have are perfect for the README because they visually demonstrate the one-slot-occupied and both-slots-occupied states.
