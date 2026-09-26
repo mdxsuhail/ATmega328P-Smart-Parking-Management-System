@@ -46,7 +46,7 @@ Total Spots Free: 1
 ``` 
 The number of available spaces is automatically updated whenever the parking-slot state changes.
 ## 🏗️ System Architecture
-                          ┌─────────────────────┐
+             ┌─────────────────────┐
              │   Parking Sensors   │
              │                     │
              │   Slot 1   Slot 2   │
@@ -74,8 +74,7 @@ The number of available spaces is automatically updated whenever the parking-slo
                │   Billing   │
                │ Calculation │
                └─────────────┘
-``
-##🔧 Hardware Components
+## 🔧 Hardware Components
 Component	Quantity
 ATmega328P	1
 20×4 LCD	1
@@ -96,29 +95,32 @@ The complete Proteus circuit contains the ATmega328P controller, DS1307 RTC, LCD
 
 When one vehicle occupies a parking slot, the LCD updates the slot status and shows that one parking space remains available.
 
+```text
 Example Display
 --- PARKING LIVE ---
 Slot 1: OCCUPIED
 Slot 2: AVAILABLE
 Total Spots Free: 1
+```
 🅿️🅿️ Case 2 — Both Parking Slots Occupied
-
 When both parking slots are occupied, the system displays zero available spaces.
-
+```
 Example Display
 --- PARKING LIVE ---
 Slot 1: OCCUPIED
 Slot 2: OCCUPIED
 Total Spots Free: 0
+```
 🕐 Real-Time Clock
 
 A DS1307 RTC is used to obtain the current date and time.
 
 The RTC allows the system to record:
-
+```
 Vehicle entry time
 Vehicle exit time
 Parking duration
+```
 
 The system uses the DS1307 RTC for time-based parking management.
 
@@ -135,7 +137,7 @@ For simulation purposes, the program treats:
 5 seconds = 1 simulated hour
 
 This allows parking billing to be demonstrated quickly without waiting for an actual hour.
-
+```
 Billing Example
 ==============================
         EXIT BILL RECEIPT
@@ -145,9 +147,9 @@ Duration (Sim Hours): 2.00
 Rate Per Hour: $2.00
 TOTAL CHARGES: $4.00
 ==============================
-
+```
 The billing rate and simulation time can be changed in the source code.
-
+```
 🔴🟢 LED Status
 
 Each parking slot uses a two-pin bi-color LED.
@@ -156,7 +158,7 @@ Each parking slot uses a two-pin bi-color LED.
 Slot Available
 🔴 Red
 Slot Occupied
-
+```
 The ATmega328P changes the LED state whenever a vehicle enters or leaves a parking slot.
 
 🔄 Working Principle
@@ -179,7 +181,7 @@ The LCD continuously displays the current parking status.
 💻 Software
 
 The project is programmed using Arduino-compatible C/C++.
-
+```
 Libraries Used
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
@@ -193,7 +195,9 @@ LED status control
 Parking duration calculation
 Parking fee calculation
 Serial billing output
+```
 📂 Repository Structure
+```
 ATmega328P-Smart-Parking-System/
 │
 ├── README.md
@@ -205,12 +209,15 @@ ATmega328P-Smart-Parking-System/
 ├── Case01-when one parking spot is ocuppied.png
 │
 └── case02-when both are occupied.png
+```
 🛠️ Tools Used
+```
 Arduino IDE
 Proteus Design Suite
 ATmega328P
 Embedded C/C++
 Serial Monitor
+```
 🎯 Learning Objectives
 
 This project demonstrates:
@@ -238,11 +245,11 @@ Add online payment integration
 Store vehicle and billing records
 Add a parking reservation system
 ## 👨‍💻 Author
-
+```
 Mohammed Suhail
 
 Electronics and Communication Engineering
-
+```
 ⭐ If you find this project useful, consider giving the repository a star.
 
 
