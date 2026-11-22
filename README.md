@@ -1,93 +1,65 @@
 # ATmega328P Smart Parking Management System
 
-A **two-slot parking monitoring and simulated billing system** built around the ATmega328P. It tracks slot occupancy, displays availability on a 20×4 I²C LCD, indicates slot status with LEDs, records arrival time with an RTC, and prints a simulated parking bill to the Serial Monitor when a vehicle leaves.
+Two-slot parking monitor using an ATmega328P. The system senses occupancy, updates a 20×4 I²C LCD, controls slot LEDs, records entry time with a DS1307 RTC, and prints a simulated bill when a vehicle leaves.
 
-> **Scope:** Academic prototype / simulation. Billing time is accelerated for demonstration; it is not a production parking controller.
+> **Scope:** Academic prototype/simulation. Billing time is accelerated.
 
 ## Features
-
-- Monitors two parking slots using digital sensors.
-- Displays each slot as **AVAILABLE** or **OCCUPIED**.
-- Shows total free spaces on a 20×4 LCD.
-- Uses DS1307 RTC timestamps for entry/exit events.
-- Changes bi-color LED indication per slot (green available, red occupied).
-- Prints simulated parking duration and fee to Serial Monitor.
+- Two digital parking-slot inputs
+- LCD displays AVAILABLE/OCCUPIED and total free slots
+- Bi-color LEDs: green available, red occupied
+- DS1307 RTC entry/exit timestamps
+- Serial Monitor billing output
 
 ## Hardware
-
-| Component | Quantity | Purpose |
-|---|---:|---|
-| ATmega328P | 1 | Controller |
-| Slot sensors | 2 | Detect occupancy (LOW = occupied in current logic) |
-| 20×4 I²C LCD + PCF8574 interface | 1 | Status display |
-| DS1307 RTC | 1 | Time source |
-| Two bi-color LEDs | 2 | Slot status |
-| Supporting resistors, power | — | Circuit support |
-
-## Pin mapping in firmware
-
-| Signal | Arduino pin |
+| Part | Function |
 |---|---|
-| Slot 1 sensor | D6 |
-| Slot 2 sensor | D7 |
-| Slot 1 LED control | D8, D9 |
-| Slot 2 LED control | D10, D11 |
-| LCD | I²C via `Wire` |
+| ATmega328P | Controller |
+| 2 slot sensors | Occupancy detection |
+| 20×4 LCD + PCF8574 I²C | Status display |
+| DS1307 RTC | Time source |
+| 2 bi-color LEDs | Slot indicators |
+| Resistors/power | Supporting circuit |
 
-## System logic
+## Pin mapping (firmware)
+| Signal | Pin |
+|---|---|
+| Slot sensors | D6, D7 |
+| Slot 1 LED | D8, D9 |
+| Slot 2 LED | D10, D11 |
+| LCD | I²C |
 
-1. Initialize serial, I²C, sensors, LEDs, LCD and RTC.
-2. Read the two slot sensor inputs repeatedly.
-3. Detect a state change to occupied and record the RTC timestamp.
-4. Detect a state change to available, calculate elapsed time, and print a bill.
-5. Refresh the LCD with the two slot states and available-space count.
+Sensor input uses `INPUT_PULLUP`; LOW is interpreted as occupied.
 
-## Billing model (simulation)
+## How it works
+1. Initialize Serial, I²C, LCD, sensors and RTC.
+2. Poll sensor inputs and detect occupancy changes.
+3. On arrival, record RTC time and set LED red.
+4. On departure, set LED green, calculate duration and print bill.
+5. Refresh LCD with occupancy and available-slot count.
 
-The sketch currently uses:
+## Simulation billing
+- Rate constant: 2.0 (receipt uses a dollar sign)
+- 5 seconds = 1 simulated hour
+- Minimum displayed duration = 0.1 simulated hour
 
-- Hourly rate: **2.0** (displayed with a dollar sign in the serial receipt)
-- **5 seconds = 1 simulated hour**
-- Minimum billable display duration: **0.1 simulated hour**
-
-This accelerated time model makes billing easier to demonstrate. Adjust the rate and conversion factor in the sketch for experiments.
+These are demo parameters, not real tariff settings.
 
 ## Software
+Arduino C/C++ · `Wire.h` · `LiquidCrystal_I2C.h` · `RTClib.h` · Arduino IDE · Proteus
 
-- Arduino-compatible C/C++
-- `Wire.h`
-- `LiquidCrystal_I2C.h`
-- `RTClib.h`
-- Arduino IDE
-- Proteus (circuit simulation)
+## Repository files
+Arduino sketch, Proteus project, and occupancy screenshots (check repository file list for exact filenames).
 
-## Repository contents
+## Test it
+Test both slots separately and together; verify LCD/LED states, set the RTC, trigger arrival/departure, and inspect Serial Monitor at 9600 baud.
 
-- Arduino sketch: `sketch_sep26a.ino` (confirm exact filename in the repo)
-- Proteus project/circuit file(s)
-- Screenshots of occupancy states, if included
+## Limitations & future work
+- Only two slots; sensor type/wiring affect reliability.
+- No vehicle identity or persistent transaction records.
+- Accelerated time and fixed fee are simulation-only.
+- Add sensor filtering/debounce, configurable rate, persistent records, and additional slots.
 
-## How to test
+**Learning outcomes:** digital inputs, state-change detection, I²C, RTC, LCD, serial debugging, elapsed-time calculations.
 
-1. Open the sketch in Arduino IDE and install the LCD and RTC libraries.
-2. Verify sensor pin logic (the code uses `INPUT_PULLUP`; LOW means occupied).
-3. Set the DS1307 time correctly before testing.
-4. Simulate or connect the sensors and check both available/occupied states.
-5. Trigger an occupied-to-available transition and inspect the bill in Serial Monitor (9600 baud).
-6. Test both slots independently and together.
-
-## Limitations & next steps
-
-- Two-slot system only.
-- Sensor behavior depends on the actual sensor type and wiring.
-- No vehicle identity or persistent parking record.
-- The current billing logic uses a time acceleration factor and a fixed minimum duration.
-- Add debounce/filtering, configurable tariff, more slots, and persistent logs if extending the project.
-
-## Learning outcomes
-
-Digital input monitoring · I²C communication · RTC integration · LCD updates · state-change detection · elapsed-time calculation · serial debugging.
-
----
-
-**Author:** Mohammed Suhail · Electronics & Communication Engineering student
+**Author:** Mohammed Suhail · ECE student
